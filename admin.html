@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人信息管理后台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-reset {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background: #d32f2f;
+        }
+
+        .btn-preview {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-preview:hover {
+            background: #45a049;
+        }
+
+        .success-message {
+            display: none;
+            padding: 15px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 个人信息管理后台</h1>
+
+        <div class="success-message" id="successMessage">
+            ✅ 保存成功！返回主页查看效果
+        </div>
+
+        <!-- 基本信息 -->
+        <div class="section">
+            <h2>📝 基本信息</h2>
+            <div class="form-group">
+                <label>姓名</label>
+                <input type="text" id="name" placeholder="请输入你的姓名">
+            </div>
+            <div class="form-group">
+                <label>职位/身份</label>
+                <input type="text" id="title" placeholder="例如：系统测试工程师">
+            </div>
+            <div class="form-group">
+                <label>简短介绍</label>
+                <textarea id="description" placeholder="一段简短的自我介绍..."></textarea>
+            </div>
+        </div>
+
+        <!-- 关于我 -->
+        <div class="section">
+            <h2>👤 关于我</h2>
+            <div class="form-group">
+                <label>详细介绍</label>
+                <textarea id="aboutIntro" placeholder="详细的自我介绍..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>教育背景</label>
+                <input type="text" id="education" placeholder="例如：南京理工大学研究生">
+            </div>
+            <div class="form-group">
+                <label>工作/学习经历</label>
+                <input type="text" id="experience" placeholder="例如：系统测试工程师，专注于软件质量保障">
+            </div>
+            <div class="form-group">
+                <label>个人爱好</label>
+                <input type="text" id="hobbies" placeholder="例如：健身、摄影、做饭">
+            </div>
+            <div class="form-group">
+                <label>职业追求</label>
+                <input type="text" id="goals" placeholder="例如：持续提升测试技术能力">
+            </div>
+        </div>
+
+        <!-- 技能 -->
+        <div class="section">
+            <h2>💪 技能特长</h2>
+            <div class="skills-grid">
+                <div class="form-group">
+                    <label>技能1 - 标题</label>
+                    <input type="text" id="skill1Title" placeholder="例如：编程语言">
+                </div>
+                <div class="form-group">
+                    <label>技能1 - 内容</label>
+                    <input type="text" id="skill1Content" placeholder="例如：Python, JavaScript, Java">
+                </div>
+                <div class="form-group">
+                    <label>技能2 - 标题</label>
+                    <input type="text" id="skill2Title" placeholder="例如：测试技能">
+                </div>
+                <div class="form-group">
+                    <label>技能2 - 内容</label>
+                    <input type="text" id="skill2Content" placeholder="例如：自动化测试, 性能测试">
+                </div>
+                <div class="form-group">
+                    <label>技能3 - 标题</label>
+                    <input type="text" id="skill3Title" placeholder="例如：AI 工具">
+                </div>
+                <div class="form-group">
+                    <label>技能3 - 内容</label>
+                    <input type="text" id="skill3Content" placeholder="例如：Claude Code, ChatGPT">
+                </div>
+                <div class="form-group">
+                    <label>技能4 - 标题</label>
+                    <input type="text" id="skill4Title" placeholder="例如：工具技能">
+                </div>
+                <div class="form-group">
+                    <label>技能4 - 内容</label>
+                    <input type="text" id="skill4Content" placeholder="例如：Git, Docker, Linux">
+                </div>
+            </div>
+        </div>
+
+        <!-- 联系方式 -->
+        <div class="section">
+            <h2>📧 联系方式</h2>
+            <div class="form-group">
+                <label>邮箱</label>
+                <input type="email" id="email" placeholder="your.email@example.com">
+            </div>
+            <div class="form-group">
+                <label>GitHub 用户名</label>
+                <input type="text" id="github" placeholder="例如：LileGege">
+            </div>
+        </div>
+
+        <!-- 按钮组 -->
+        <div class="btn-group">
+            <button class="btn-save" onclick="saveData()">💾 保存修改</button>
+            <button class="btn-preview" onclick="previewSite()">👁️ 预览网站</button>
+            <button class="btn-reset" onclick="resetData()">🔄 恢复默认</button>
+        </div>
+    </div>
+
+    <script>
+        // 页面加载时读取已保存的数据
+        window.onload = function() {
+            loadData();
+        };
+
+        // 加载数据
+        function loadData() {
+            const data = JSON.parse(localStorage.getItem('personalInfo')) || getDefaultData();
+
+            document.getElementById('name').value = data.name || '';
+            document.getElementById('title').value = data.title || '';
+            document.getElementById('description').value = data.description || '';
+            document.getElementById('aboutIntro').value = data.aboutIntro || '';
+            document.getElementById('education').value = data.education || '';
+            document.getElementById('experience').value = data.experience || '';
+            document.getElementById('hobbies').value = data.hobbies || '';
+            document.getElementById('goals').value = data.goals || '';
+            document.getElementById('skill1Title').value = data.skill1Title || '';
+            document.getElementById('skill1Content').value = data.skill1Content || '';
+            document.getElementById('skill2Title').value = data.skill2Title || '';
+            document.getElementById('skill2Content').value = data.skill2Content || '';
+            document.getElementById('skill3Title').value = data.skill3Title || '';
+            document.getElementById('skill3Content').value = data.skill3Content || '';
+            document.getElementById('skill4Title').value = data.skill4Title || '';
+            document.getElementById('skill4Content').value = data.skill4Content || '';
+            document.getElementById('email').value = data.email || '';
+            document.getElementById('github').value = data.github || '';
+        }
+
+        // 获取默认数据
+        function getDefaultData() {
+            return {
+                name: '李乐哥哥',
+                title: '系统测试工程师 | 南京理工大学研究生',
+                description: '热爱技术，专注于软件测试与质量保障。工作之余喜欢健身、摄影和做饭，享受生活的每一刻。',
+                aboutIntro: '我是一名系统测试工程师，目前就读于南京理工大学研究生。',
+                education: '南京理工大学研究生在读',
+                experience: '系统测试工程师，专注于软件质量保障与自动化测试',
+                hobbies: '健身、摄影、做饭，热爱探索生活的美好',
+                goals: '持续提升测试技术能力，为软件质量保驾护航',
+                skill1Title: '编程语言',
+                skill1Content: 'Python, JavaScript, Java',
+                skill2Title: '测试技能',
+                skill2Content: '自动化测试, 性能测试, 接口测试',
+                skill3Title: 'AI 工具',
+                skill3Content: 'Claude Code, ChatGPT, AI 辅助开发',
+                skill4Title: '工具技能',
+                skill4Content: 'Git, Docker, Linux',
+                email: '2941158296@qq.com',
+                github: 'LileGege'
+            };
+        }
+
+        // 保存数据
+        function saveData() {
+            const data = {
+                name: document.getElementById('name').value,
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                aboutIntro: document.getElementById('aboutIntro').value,
+                education: document.getElementById('education').value,
+                experience: document.getElementById('experience').value,
+                hobbies: document.getElementById('hobbies').value,
+                goals: document.getElementById('goals').value,
+                skill1Title: document.getElementById('skill1Title').value,
+                skill1Content: document.getElementById('skill1Content').value,
+                skill2Title: document.getElementById('skill2Title').value,
+                skill2Content: document.getElementById('skill2Content').value,
+                skill3Title: document.getElementById('skill3Title').value,
+                skill3Content: document.getElementById('skill3Content').value,
+                skill4Title: document.getElementById('skill4Title').value,
+                skill4Content: document.getElementById('skill4Content').value,
+                email: document.getElementById('email').value,
+                github: document.getElementById('github').value
+            };
+
+            localStorage.setItem('personalInfo', JSON.stringify(data));
+
+            // 显示成功消息
+            const message = document.getElementById('successMessage');
+            message.classList.add('show');
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
+        }
+
+        // 预览网站
+        function previewSite() {
+            window.open('index.html', '_blank');
+        }
+
+        // 恢复默认数据
+        function resetData() {
+            if (confirm('确定要恢复默认数据吗？这将清除所有自定义内容。')) {
+                localStorage.removeItem('personalInfo');
+                loadData();
+                alert('已恢复默认数据！');
+            }
+        }
+    </script>
+</body>
+</html>
